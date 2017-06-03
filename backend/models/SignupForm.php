@@ -25,13 +25,11 @@ class SignupForm extends Model
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\kordar\ace\models\Admin', 'message' => '该用户已被占用！'],
             ['username', 'string', 'min' => 2, 'max' => 255],
-
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\kordar\ace\models\Admin', 'message' => '该邮箱已被注册！'],
-
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
 
@@ -63,7 +61,6 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-
         $user = new Admin();
         $user->username = $this->username;
         $user->email = $this->email;

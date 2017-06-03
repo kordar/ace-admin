@@ -18,10 +18,6 @@ return [
           ],
     ],
     'components' => [
-        'authManager' => [
-            'class' => 'yii\rbac\DbManager',
-            'db' => 'ace'
-        ],
         'log' => [
             'targets' => [
                 [
