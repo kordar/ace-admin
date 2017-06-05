@@ -21,7 +21,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Sidebar extends \common\models\ace\Sidebar
+class Sidebar extends \kordar\ace\models\Sidebar
 {
 
     public function parentsDownList()

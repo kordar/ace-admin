@@ -41,20 +41,31 @@ class SidebarController extends Controller
         ];
     }
 
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+        ];
+    }
+
     /**
      * Lists all Sidebar models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new SidebarSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'dropDownItemsList' => $searchModel->dropDownItemsList()
-        ]);
+        print_r(Yii::$app->controller->module->id);
+//        $searchModel = new SidebarSearch();
+//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//
+//        return $this->render('index', [
+//            'searchModel' => $searchModel,
+//            'dataProvider' => $dataProvider,
+//            'dropDownItemsList' => $searchModel->dropDownItemsList()
+//        ]);
     }
 
     /**

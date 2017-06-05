@@ -8,7 +8,7 @@ $params = array_merge(
 
 return [
 
-    'id' => 'ace-admin',    # 入口ID
+    'id' => 'backend',    # 入口ID
     'language' => 'zh-CN',  # 语言
     'layoutPath' => '@acedir/layouts',  # 布局文件
     'basePath' => dirname(__DIR__),
@@ -87,7 +87,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'suffix' => '.html',
-            'enableStrictParsing' => true,
+            'enableStrictParsing' => false,
             'rules' => [
                 '/' => 'site/index',
                 'login' => 'site/login',

@@ -65,6 +65,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        throw new \kordar\ace\web\RbacException(2200, 'ADSFDASF');
         return $this->render('index');
     }
 
@@ -139,7 +140,6 @@ class SiteController extends Controller
                 Yii::$app->session->setFlash('error', '很抱歉, 我们无法为提供的电子邮件重设密码.');
             }
         }
-
         $this->layout = 'login';
         return $this->render('sign/forgot', [
             'model' => $model,
