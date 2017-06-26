@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use kordar\ace\web\RbacFilter;
 use Yii;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -12,6 +13,11 @@ use backend\models\SignupForm;
 
 /**
  * Site controller
+ * @item index:网站首页
+ * @item login:登录
+ * @item logout:注销
+ * @item signup:注册
+ * @item request-password-reset:密码重置
  */
 class SiteController extends Controller
 {
@@ -43,6 +49,9 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
+            'rbac' => [
+                'class' => RbacFilter::className(),
+            ],
         ];
     }
 
@@ -59,13 +68,10 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
-     *
      * @return string
      */
     public function actionIndex()
     {
-        throw new \kordar\ace\web\RbacException(2200, 'ADSFDASF');
         return $this->render('index');
     }
 
@@ -129,6 +135,7 @@ class SiteController extends Controller
      * Requests password reset.
      *
      * @return mixed
+     * @desc 密码重置
      */
     public function actionRequestPasswordReset()
     {
@@ -152,6 +159,7 @@ class SiteController extends Controller
      * @param string $token
      * @return mixed
      * @throws BadRequestHttpException
+     * @desc 重置密码
      */
     public function actionResetPassword($token)
     {

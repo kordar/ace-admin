@@ -11,6 +11,11 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
+ * @item *:菜单管理
+ * @item create:创建菜单
+ */
+
+/**
  * SidebarController implements the CRUD actions for Sidebar model.
  */
 class SidebarController extends Controller

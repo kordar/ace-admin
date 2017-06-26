@@ -2,27 +2,74 @@
 namespace console\controllers;
 
 use yii\console\Controller;
+use Yii;
 
 class MenusController extends Controller
 {
 
     public function actionAuto()
     {
+
         $path = dirname(dirname(__DIR__));
-        $obj = new \kordar\ace\tree\AutoMenusByFile($path);
+        $filesMap = [
+            ['module'=> '', 'filename' => $path . '/backend/controllers/'],
+            ['module'=> 'basis/', 'filename' => $path . '/backend/modules/basis/controllers/'],
+        ];
 
-        print_r(\Yii::$app->controller->module->id);die;
+        $actions = [];
+        $items = [];
 
-        echo \Yii::$app->controller->id;
-        echo PHP_EOL;
-        echo \Yii::$app->controller->action->id;
-        echo PHP_EOL;
-        echo $this->context->module->id;
-        die;
+        foreach ($filesMap as $fileItem) {
 
-        // 实例化
-        foreach ($obj as $item) {
-            echo $item . PHP_EOL;
+            $module = $fileItem['module'];
+            $filename = $fileItem['filename'];
+            // Simple way to get all files in a directory
+            $files = new \FilesystemIterator($filename);
+
+            foreach($files as $file)
+            {
+                $controller = $file->getFilename();
+                $match = [];
+                preg_match("/([a-zA-Z]+)Controller\.php/", $controller, $match);
+                $class = lcfirst($match[1]);
+
+                $namespace = $module . $class;
+
+                array_push($actions, $namespace . '/*');
+
+                $document = new \SplFileObject($file->getPathname());
+
+                foreach($document as $line) {
+
+                    if (preg_match('/@item (.+)/', $line, $_item)) {
+                        $itemArr = explode(':', $_item[1]);
+                        $key = $namespace . '/' . trim($itemArr[0]);
+                        $items[$key] = trim($itemArr[1]);
+                    }
+
+                    if (preg_match('/public function action([a-zA-Z0-9_]+)/', $line, $_action)) {
+                        if (preg_match('/[A-Z]/', $_action[1])) {
+                            $str = lcfirst($_action[1]);
+                            $actions[] = $namespace . '/' . preg_replace_callback('/[A-Z]/', function($matches){
+                                    return '-' . strtolower($matches[0]);
+                                }, $str);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        $auth = Yii::$app->authManager;
+
+        $auth->removeAllPermissions();
+
+        foreach ($actions as $action) {
+            if (!$auth->getPermission($action)) {
+                $obj = $auth->createPermission($action);
+                $obj->description = isset($items[$action]) ? $items[$action] : $action;
+                $auth->add($obj);
+            }
         }
 
     }

@@ -19,6 +19,10 @@ return [
         'basis' => [
             'class' => 'backend\modules\basis\Module',
         ],
+        'rbac' => [
+            'class' => 'backend\modules\rbac\module',
+        ],
+
     ],
 
     // 组件管理器默认配置
@@ -101,7 +105,7 @@ return [
                 'menu/view' => 'basis/sidebar/view',
                 'menu/update' => 'basis/sidebar/update',
 
-                //'debug/<controller>/<action>' => 'debug/<controller>/<action>',
+                '<controller>/<action>' => 'rbac/<controller>/<action>',
             ]
         ],
     ],
