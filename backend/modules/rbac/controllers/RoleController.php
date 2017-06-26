@@ -130,7 +130,7 @@ class RoleController extends Controller
 
     public function actionAssign()
     {
-        
+
     }
 
     /**
