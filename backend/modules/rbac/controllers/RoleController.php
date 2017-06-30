@@ -128,9 +128,25 @@ class RoleController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionAssign()
+    /**
+     * @param $name
+     * @return string
+     */
+    public function actionAssign($name)
     {
+        $model = $this->findModel($name);
 
+        if (Yii::$app->request->isPost) {
+            if ($model->load(Yii::$app->request->post()) && $model->setChildren()) {
+                return $this->redirect(['view', 'name' => $model->name]);
+            }
+        }
+
+        return $this->render('assign', [
+            'model' => $model,
+            'permissions' => $model->getPermissions($name),
+            'roles' => $model->getRoles($name)
+        ]);
     }
 
     /**

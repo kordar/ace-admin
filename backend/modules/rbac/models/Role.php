@@ -3,6 +3,8 @@
 namespace backend\modules\rbac\models;
 
 use Yii;
+use yii\base\Exception;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%auth_item}}".
@@ -17,6 +19,11 @@ use Yii;
  */
 class Role extends \yii\db\ActiveRecord
 {
+
+    public $assign = [];
+    public $role = [];
+
+
     /**
      * @inheritdoc
      */
@@ -44,12 +51,11 @@ class Role extends \yii\db\ActiveRecord
             [['description', 'rule_name', 'data'], 'filter', 'filter'=>function($value){
                 return empty($value) ? null : trim($value);
             }],
+            [['role', 'assign'], 'safe'],
+            [['role', 'assign'], 'filter', 'filter'=>function($value){
+                return empty($value) ? [] : $value;
+            }],
         ];
-    }
-
-    public function setNull($attr, $param)
-    {
-        dump($param);die;
     }
 
     /**
@@ -65,6 +71,8 @@ class Role extends \yii\db\ActiveRecord
             'data' => '数据',
             'created_at' => '创建时间',
             'updated_at' => '更新时间',
+            'assign' => '权限',
+            'role' => '角色'
         ];
     }
 
@@ -80,6 +88,58 @@ class Role extends \yii\db\ActiveRecord
             return $auth->add($objRole);
         }
         return false;
+    }
+
+    public function setChildren()
+    {
+        $auth = Yii::$app->authManager;
+        $role = $auth->getRole($this->name);
+
+        if (empty($role)) {
+            return false;
+        }
+
+        if ($this->validate()) {
+
+            $items = ArrayHelper::merge($this->role, $this->assign);
+
+            $trans = Yii::$app->ace->beginTransaction();
+
+            try {
+                $auth->removeChildren($role);
+                foreach ($items as $child) {
+                    $obj = empty($auth->getRole($child)) ? $auth->getPermission($child) : $auth->getRole($child);
+                    $auth->addChild($role, $obj);
+                }
+                $trans->commit();
+            } catch (Exception $e) {
+                $trans->rollBack();
+                return false;
+            }
+            return true;
+        }
+
+        return false;
+
+
+    }
+
+
+    public function getPermissions($name)
+    {
+        $auth = Yii::$app->authManager;
+        $this->assign = array_keys($auth->getPermissionsByRole($name));
+        $permissions = $auth->getPermissions();
+        return ArrayHelper::map($permissions, 'name', 'description');
+    }
+
+    public function getRoles($name)
+    {
+        $auth = Yii::$app->authManager;
+        $this->role = array_keys($auth->getChildRoles($name));
+        $roles = ArrayHelper::map($auth->getRoles(), 'name', 'description');
+        ArrayHelper::remove($roles, $name);
+        return $roles;
     }
 
 }
