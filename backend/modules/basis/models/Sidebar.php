@@ -24,6 +24,10 @@ use yii\helpers\ArrayHelper;
 class Sidebar extends \kordar\ace\models\Sidebar
 {
 
+    /**
+     * @return \yii\db\Connection the database connection used by this AR class.
+     */
+
     public function parentsDownList()
     {
         $subQuery = (new Query())->select('parent_id')->distinct()->from('sidebar');

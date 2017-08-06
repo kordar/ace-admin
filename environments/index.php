@@ -34,6 +34,8 @@ return [
         'setWritable' => [
             'backend/runtime',
             'backend/web/assets',
+            'frontend/runtime',
+            'frontend/web/assets',
         ],
         'setExecutable' => [
             'yii',
@@ -41,6 +43,7 @@ return [
         ],
         'setCookieValidationKey' => [
             'backend/config/local/main-local.php',
+            'frontend/config/local/main-local.php',
         ],
     ],
     'Production' => [
@@ -48,12 +51,15 @@ return [
         'setWritable' => [
             'backend/runtime',
             'backend/web/assets',
+            'frontend/runtime',
+            'frontend/web/assets',
         ],
         'setExecutable' => [
             'yii',
         ],
         'setCookieValidationKey' => [
             'backend/config/local/main-local.php',
+            'frontend/config/local/main-local.php',
         ],
     ],
 ];

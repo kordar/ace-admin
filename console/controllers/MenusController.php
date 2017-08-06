@@ -14,6 +14,7 @@ class MenusController extends Controller
         $filesMap = [
             ['module'=> '', 'filename' => $path . '/backend/controllers/'],
             ['module'=> 'basis/', 'filename' => $path . '/backend/modules/basis/controllers/'],
+            ['module'=> 'rbac/', 'filename' => $path . '/backend/modules/rbac/controllers/'],
         ];
 
         $actions = [];
@@ -62,13 +63,15 @@ class MenusController extends Controller
 
         $auth = Yii::$app->authManager;
 
-        $auth->removeAllPermissions();
+        //$auth->removeAllPermissions();
 
         foreach ($actions as $action) {
+            $obj = $auth->createPermission($action);
+            $obj->description = isset($items[$action]) ? $items[$action] : $action;
             if (!$auth->getPermission($action)) {
-                $obj = $auth->createPermission($action);
-                $obj->description = isset($items[$action]) ? $items[$action] : $action;
                 $auth->add($obj);
+            } else {
+                $auth->update($action, $obj);
             }
         }
 

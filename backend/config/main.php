@@ -20,13 +20,23 @@ return [
             'class' => 'backend\modules\basis\Module',
         ],
         'rbac' => [
-            'class' => 'backend\modules\rbac\module',
+            'class' => 'backend\modules\rbac\Module',
         ],
-
+        'news' => [
+            'class' => 'backend\modules\news\Module',
+        ],
+        'parts' => [
+            'class' => 'backend\modules\parts\Module',
+        ],
     ],
 
     // 组件管理器默认配置
     'components' => [
+
+        'cache' => [
+            'class' => 'yii\caching\FileCache',
+            'cachePath' => '@cache',
+        ],
 
         ## rbac认证管理
         'authManager' => [
@@ -99,13 +109,10 @@ return [
                 'forgot' => 'site/request-password-reset',
                 'signup' => 'site/signup',
                 // 后台菜单
-                'menu' => 'basis/sidebar/index',
-                'menu/create' => 'basis/sidebar/create',
-                'menu/delete' => 'basis/sidebar/delete',
-                'menu/view' => 'basis/sidebar/view',
-                'menu/update' => 'basis/sidebar/update',
-
-                '<controller>/<action>' => 'rbac/<controller>/<action>',
+               '<modules>/<controller>/<action>' => '<modules>/<controller>/<action>',
+               // '<controller>/<action>' => 'rbac/<controller>/<action>',
+               //'<controller>/<action>' => 'news/<controller>/<action>',
+              // '<controller>/<action>' => 'parts/<controller>/<action>',
             ]
         ],
     ],

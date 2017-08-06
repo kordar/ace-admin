@@ -20,7 +20,7 @@ use yii\helpers\ArrayHelper;
 class Role extends \yii\db\ActiveRecord
 {
 
-    public $assign = [];
+    public $permission = [];
     public $role = [];
 
 
@@ -51,8 +51,8 @@ class Role extends \yii\db\ActiveRecord
             [['description', 'rule_name', 'data'], 'filter', 'filter'=>function($value){
                 return empty($value) ? null : trim($value);
             }],
-            [['role', 'assign'], 'safe'],
-            [['role', 'assign'], 'filter', 'filter'=>function($value){
+            [['role', 'permission'], 'safe'],
+            [['role', 'permission'], 'filter', 'filter'=>function($value){
                 return empty($value) ? [] : $value;
             }],
         ];
@@ -71,7 +71,7 @@ class Role extends \yii\db\ActiveRecord
             'data' => '数据',
             'created_at' => '创建时间',
             'updated_at' => '更新时间',
-            'assign' => '权限',
+            'permission' => '权限',
             'role' => '角色'
         ];
     }
@@ -101,7 +101,7 @@ class Role extends \yii\db\ActiveRecord
 
         if ($this->validate()) {
 
-            $items = ArrayHelper::merge($this->role, $this->assign);
+            $items = ArrayHelper::merge($this->role, $this->permission);
 
             $trans = Yii::$app->ace->beginTransaction();
 
@@ -128,9 +128,26 @@ class Role extends \yii\db\ActiveRecord
     public function getPermissions($name)
     {
         $auth = Yii::$app->authManager;
-        $this->assign = array_keys($auth->getPermissionsByRole($name));
+        $this->permission = array_keys($auth->getPermissionsByRole($name));
         $permissions = $auth->getPermissions();
         return ArrayHelper::map($permissions, 'name', 'description');
+
+        /*
+        $list = [];
+
+        if (!empty($permissions)) {
+            foreach ($permissions as $permission => $obj) {
+                preg_match('/^[0-9a-z]+/', $permission, $key);
+                preg_match('/\*$/', $permission, $val);
+                if (isset($val[0]) && $val[0] == '*') {
+                    $list[$key[0]]['title'] = $obj->description;
+                }
+                $list[$key[0]]['items'][$permission] = $obj->description;
+            }
+        }
+
+        return $list;
+        */
     }
 
     public function getRoles($name)

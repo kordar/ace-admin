@@ -26,6 +26,17 @@ return [
                 ],
             ],
         ],
+
+        ## rbac认证管理
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'db' => 'ace',
+            'itemTable'=>'{{%auth_item}}',
+            'itemChildTable'=>'{{%auth_item_child}}',
+            'assignmentTable'=>'{{%auth_assignment}}',
+            'ruleTable'=>'{{%auth_rule}}',
+        ],
+
     ],
     'params' => $params,
 ];

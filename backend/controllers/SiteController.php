@@ -49,9 +49,9 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
-            'rbac' => [
-                'class' => RbacFilter::className(),
-            ],
+//            'rbac' => [
+//                'class' => RbacFilter::className(),
+//            ],
         ];
     }
 

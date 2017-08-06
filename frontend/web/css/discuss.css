@@ -1,0 +1,30 @@
+.discuss-publish {
+
+}
+
+.discuss-publish-header {
+    padding-top: 10px;
+}
+
+.discuss-publish-header form {
+    margin-bottom: 5px;
+}
+
+.discuss-publish-header-title {
+    display: block;
+    padding: 12px 0px 0px 5px;
+    font-size: 0.9em;
+}
+
+.discuss-publish-body textarea {
+    width: 100%;
+    display: block;
+    padding: 8px;
+    border: 1px solid darkgray;
+    resize: none;
+    height: 120px;
+}
+
+.discuss-publish-body button {
+    margin-top: 10px;
+}

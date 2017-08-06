@@ -1,16 +1,16 @@
 <?php
 
-namespace backend\modules\rbac;
+namespace backend\modules\parts;
 
 /**
- * rbac module definition class
+ * parts module definition class
  */
-class module extends \yii\base\Module
+class Module extends \yii\base\Module
 {
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'backend\modules\rbac\controllers';
+    public $controllerNamespace = 'backend\modules\parts\controllers';
 
     /**
      * @inheritdoc

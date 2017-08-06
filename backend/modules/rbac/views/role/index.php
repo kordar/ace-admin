@@ -35,10 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{assign} {update} {delete}',
+                'template' => '{permission} {update} {delete}',
                 'buttons' => [
-                    'assign' => function($url, $model, $key) {
-                        return Html::a('分配权限', ['assign', 'name' => $model['name']]);
+                    'permission' => function($url, $model, $key) {
+                        return Html::a('分配权限', ['permission', 'name' => $model['name']]);
                     },
                     'update' => function($url, $model, $key) {
                         return Html::a('更新', ['update', 'name' => $model['name']]);

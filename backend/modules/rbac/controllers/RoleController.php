@@ -132,7 +132,7 @@ class RoleController extends Controller
      * @param $name
      * @return string
      */
-    public function actionAssign($name)
+    public function actionPermission($name)
     {
         $model = $this->findModel($name);
 
@@ -142,7 +142,7 @@ class RoleController extends Controller
             }
         }
 
-        return $this->render('assign', [
+        return $this->render('permission', [
             'model' => $model,
             'permissions' => $model->getPermissions($name),
             'roles' => $model->getRoles($name)

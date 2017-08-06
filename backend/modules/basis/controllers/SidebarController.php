@@ -13,6 +13,8 @@ use yii\filters\VerbFilter;
 /**
  * @item *:菜单管理
  * @item create:创建菜单
+ * @item delete:删除菜单
+ * @item index:菜单列表
  */
 
 /**
@@ -62,15 +64,14 @@ class SidebarController extends Controller
     public function actionIndex()
     {
 
-        print_r(Yii::$app->controller->module->id);
-//        $searchModel = new SidebarSearch();
-//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-//
-//        return $this->render('index', [
-//            'searchModel' => $searchModel,
-//            'dataProvider' => $dataProvider,
-//            'dropDownItemsList' => $searchModel->dropDownItemsList()
-//        ]);
+        $searchModel = new SidebarSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'dropDownItemsList' => $searchModel->dropDownItemsList()
+        ]);
     }
 
     /**
